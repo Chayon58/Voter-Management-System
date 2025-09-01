@@ -1,0 +1,18 @@
+from collections import deque
+
+class Voter:
+    def __init__(self, voter_id, name, age, address):
+        self.voter_id = voter_id
+        self.name = name
+        self.age = age
+        self.address = address
+
+    def __str__(self):
+        return f"ID: {self.voter_id}, Name: {self.name}, Age: {self.age}, Address: {self.address}"
+
+
+class VoterManagementSystem:
+    def __init__(self):
+        self.voters = {}
+        self.recent_actions = []   # Stack (LIFO) for actions
+        self.registration_queue = deque()  # Queue (FIFO) for pending registrations
