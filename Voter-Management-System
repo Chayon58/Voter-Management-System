@@ -16,3 +16,63 @@ class VoterManagementSystem:
         self.voters = {}
         self.recent_actions = []   # Stack (LIFO) for actions
         self.registration_queue = deque()  # Queue (FIFO) for pending registrations
+
+    # CREATE
+    def register_voter(self, voter_id, name, age, address):
+        if voter_id in self.voters:
+            print(" Voter ID already exists!")
+        elif age < 18:
+            print(" Voter must be at least 18 years old!")
+        else:
+            self.voters[voter_id] = Voter(voter_id, name, age, address)
+            self.recent_actions.append(("REGISTER", voter_id))
+            print(" Voter registered successfully!")
+
+    def add_to_registration_queue(self, voter_id, name, age, address):
+        self.registration_queue.append((voter_id, name, age, address))
+        print("Voter added to registration queue.")
+
+    def process_registration_queue(self):
+        if self.registration_queue:
+            voter_id, name, age, address = self.registration_queue.popleft()
+            self.register_voter(voter_id, name, age, address)
+        else:
+            print("️ No voters in the registration queue.")
+
+    # READ
+    def search_voter(self, voter_id):
+        return self.voters.get(voter_id, None)
+
+    def display_all_voters(self):
+        if not self.voters:
+            print("️ No voters registered.")
+        else:
+            for voter in self.voters.values():
+                print(voter)
+
+    # UPDATE
+    def update_voter(self, voter_id, name=None, age=None, address=None):
+        if voter_id in self.voters:
+            voter = self.voters[voter_id]
+            if name:
+                voter.name = name
+            if age:
+                if age < 18:
+                    print(" Age must be 18 or above!")
+                    return
+                voter.age = age
+            if address:
+                voter.address = address
+            self.recent_actions.append(("UPDATE", voter_id))
+            print(" Voter details updated successfully!")
+        else:
+            print(" Voter not found!")
+
+    # DELETE
+    def delete_voter(self, voter_id):
+        if voter_id in self.voters:
+            del self.voters[voter_id]
+            self.recent_actions.append(("DELETE", voter_id))
+            print(" Voter deleted successfully!")
+        else:
+            print(" Voter not found!")
