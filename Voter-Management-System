@@ -28,7 +28,7 @@ class VoterManagementSystem:
             self.recent_actions.append(("REGISTER", voter_id))
             print(" Voter registered successfully!")
 
-    # Queue Operations
+    #================= Queue Operations =================
     def add_to_registration_queue(self, voter_id, name, age, address):
         self.registration_queue.append((voter_id, name, age, address))
         print("Voter added to registration queue.")
@@ -78,7 +78,7 @@ class VoterManagementSystem:
         else:
             print(" Voter not found!")
 
-   # Stack operations
+   #================= Stack operations =================
     def last_action(self):
         return self.recent_actions[-1] if self.recent_actions else None
 
@@ -95,3 +95,70 @@ class VoterManagementSystem:
                 print("️ Undo not implemented for UPDATE.")
         else:
             print("️ No actions to undo.")
+
+
+# ================= MENU =================
+if __name__ == "__main__":
+    system = VoterManagementSystem()
+
+    while True:
+        print("\n===== Voter ID Management System =====")
+        print("1. Register Voter")
+        print("2. Search Voter")
+        print("3. Update Voter")
+        print("4. Delete Voter")
+        print("5. Display All Voters")
+        print("6. Add to Registration Queue")
+        print("7. Process Registration Queue")
+        print("8. Undo Last Action")
+        print("9. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            vid = int(input("Enter Voter ID: "))
+            name = input("Enter Name: ")
+            age = int(input("Enter Age: "))
+            address = input("Enter Address: ")
+            system.register_voter(vid, name, age, address)
+
+        elif choice == "2":
+            vid = int(input("Enter Voter ID: "))
+            voter = system.search_voter(vid)
+            print(voter if voter else "❌ Voter not found")
+
+        elif choice == "3":
+            vid = int(input("Enter Voter ID: "))
+            name = input("Enter New Name (leave blank to skip): ") or None
+            age_input = input("Enter New Age (leave blank to skip): ")
+            age = int(age_input) if age_input else None
+            address = input("Enter New Address (leave blank to skip): ") or None
+            system.update_voter(vid, name, age, address)
+
+        elif choice == "4":
+            vid = int(input("Enter Voter ID: "))
+            system.delete_voter(vid)
+
+        elif choice == "5":
+            system.display_all_voters()
+
+        elif choice == "6":
+            vid = int(input("Enter Voter ID: "))
+            name = input("Enter Name: ")
+            age = int(input("Enter Age: "))
+            address = input("Enter Address: ")
+            system.add_to_registration_queue(vid, name, age, address)
+
+        elif choice == "7":
+            system.process_registration_queue()
+
+        elif choice == "8":
+            system.undo_last_action()
+
+        elif choice == "9":
+            print(" Exiting... Goodbye!")
+            break
+
+        else:
+            print("️ Invalid choice, please try again!")
+
