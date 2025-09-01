@@ -28,6 +28,7 @@ class VoterManagementSystem:
             self.recent_actions.append(("REGISTER", voter_id))
             print(" Voter registered successfully!")
 
+    # Queue Operations
     def add_to_registration_queue(self, voter_id, name, age, address):
         self.registration_queue.append((voter_id, name, age, address))
         print("Voter added to registration queue.")
@@ -76,3 +77,21 @@ class VoterManagementSystem:
             print(" Voter deleted successfully!")
         else:
             print(" Voter not found!")
+
+   # Stack operations
+    def last_action(self):
+        return self.recent_actions[-1] if self.recent_actions else None
+
+    def undo_last_action(self):
+        if self.recent_actions:
+            action, voter_id = self.recent_actions.pop()
+            if action == "REGISTER":
+                if voter_id in self.voters:
+                    del self.voters[voter_id]
+                    print(f"️ Undo REGISTER: Voter {voter_id} removed.")
+            elif action == "DELETE":
+                print("️ Undo not supported for DELETE (data lost).")
+            elif action == "UPDATE":
+                print("️ Undo not implemented for UPDATE.")
+        else:
+            print("️ No actions to undo.")
