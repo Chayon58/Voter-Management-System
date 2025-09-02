@@ -29,6 +29,7 @@ class VoterManagementSystem:
             print(" Voter registered successfully!")
 
     #================= Queue Operations =================
+
     def add_to_registration_queue(self, voter_id, name, age, address):
         self.registration_queue.append((voter_id, name, age, address))
         print("Voter added to registration queue.")
